@@ -1,0 +1,12 @@
+name: essentials
+version: 0.1
+api-version: 1.16
+main: com.inivican.essentials.Essentials
+authors: [Inivican]
+description: A rudimentary essentials plugin
+commands:
+   home:
+      description: lists commands and usage.
+      usage: /home [args]. e.g. /home help
+      permission: essentials.home
+      permission-message: You're not allowed to use this command.
