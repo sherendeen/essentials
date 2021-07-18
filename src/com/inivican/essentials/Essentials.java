@@ -11,8 +11,9 @@ import javax.annotation.Nullable;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.inivican.essentials.constants.MsgPrefix;
+import com.inivican.essentials.constants.Msg;
 import com.inivican.essentials.objects.PlayerHome;
+import com.inivican.essentials.util.TeleportAssistant;
 import com.inivican.essentials.util.commands.Home;
 
 
@@ -61,7 +62,7 @@ public class Essentials extends JavaPlugin {
 			Files.list(new File(System.getProperty("user.dir")).toPath()).forEach(path ->{
 				
 				if (path.toAbsolutePath().toString().endsWith(".ph")) {
-					System.out.println(MsgPrefix.LIST + path);
+					System.out.println(Msg.LIST + path);
 					paths.add(path.toAbsolutePath().toString());
 				}
 				
@@ -80,7 +81,11 @@ public class Essentials extends JavaPlugin {
 	
 	@Override
 	public void onEnable() {
+		// enable /home commands
 		this.getCommand("home").setExecutor(new Home(this));
+		
+		// enable /tpa commands
+		this.getCommand("tpa").setExecutor(new TeleportAssistant(this));
 		
 		loadPlayerHomes();
 		System.out.println("Number of player homes loaded: " + playerHomes.size());
