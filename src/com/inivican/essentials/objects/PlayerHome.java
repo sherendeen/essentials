@@ -9,7 +9,7 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.UUID;
 
-import com.inivican.essentials.constants.MsgPrefix;
+import com.inivican.essentials.constants.Msg;
 import com.inivican.essentials.util.Players;
 
 public class PlayerHome implements Serializable {
@@ -26,7 +26,7 @@ public class PlayerHome implements Serializable {
 	private String worldName;
 	
 	public PlayerHome() {
-		System.out.println(MsgPrefix.DEBUG + "Used no arg playerHome Constructor" );
+		System.out.println(Msg.DEBUG + "Used no arg playerHome Constructor" );
 		this.homeName = "undefined";
 		this.x = 0;
 		this.y = 0;
@@ -88,10 +88,9 @@ public class PlayerHome implements Serializable {
 	
 	@Override
 	public String toString() {
-		return (Players.getPlayerNameFromUuid( UUID.fromString(this.playerUUID) )
-				+ "'s home: " + this.homeName + 
-				" is located at " + this.x 
-				+ ", " +this.y+ ", " +this.z+ ". World name: "+this.worldName );
+		return this.homeName + 
+				" located at " + this.x 
+				+ ", " +this.y+ ", " +this.z+ ". World name: " + this.worldName;
 	}
 	
 	public String getFewerDetails() {

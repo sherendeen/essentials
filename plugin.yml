@@ -1,12 +1,17 @@
 name: essentials
-version: 0.1
+version: 0.2.1
 api-version: 1.16
 main: com.inivican.essentials.Essentials
 authors: [Inivican]
 description: A rudimentary essentials plugin
 commands:
+   tpa:
+      description: tpa command
+      usage: /tpa args
+      permission: essentials.tpa
+      permission-message: You don't have permission to make direct teleportations
    home:
       description: lists commands and usage.
-      usage: /home [args]. e.g. /home help
+      usage: /home [args]. example `/home help`
       permission: essentials.home
       permission-message: You're not allowed to use this command.
