@@ -7,10 +7,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.util.UUID;
 
-import com.inivican.essentials.constants.Msg;
-import com.inivican.essentials.util.Players;
+import com.inivican.essentials.constants.MsgPrefix;
 
 public class PlayerHome implements Serializable {
 	
@@ -26,7 +24,7 @@ public class PlayerHome implements Serializable {
 	private String worldName;
 	
 	public PlayerHome() {
-		System.out.println(Msg.DEBUG + "Used no arg playerHome Constructor" );
+		System.out.println(MsgPrefix.DEBUG + "Used no arg playerHome Constructor" );
 		this.homeName = "undefined";
 		this.x = 0;
 		this.y = 0;
@@ -138,9 +136,8 @@ public class PlayerHome implements Serializable {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-		System.out.println();
-		System.out.println(playerHome.getFewerDetails());
-		System.out.println();
+		
+		System.out.println(MsgPrefix.PLUGIN_NAME_UNCOLORED + playerHome.getFewerDetails());
 		
 		return playerHome;
 	}
@@ -154,7 +151,7 @@ public class PlayerHome implements Serializable {
 	}
 	
 	public static String getAutoName(PlayerHome ph) {
-		return ph.getHomeName()+"_"+ph.getWorldName()+".ph";
+		return "playerHomes/"+ph.getHomeName()+"_"+ph.getWorldName()+".ph";
 	}
 	
 }

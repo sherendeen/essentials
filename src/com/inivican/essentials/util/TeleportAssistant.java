@@ -9,7 +9,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.inivican.essentials.Essentials;
-import com.inivican.essentials.constants.Msg;
+import com.inivican.essentials.constants.MsgPrefix;
 import com.inivican.essentials.util.commands.Validation;
 
 import net.md_5.bungee.api.ChatColor;
@@ -39,14 +39,14 @@ public class TeleportAssistant implements CommandExecutor {
 		// is the a
 		if (args[0] == null || args[0].equalsIgnoreCase("")) {
 			
-			commandSender.sendMessage(Msg.ERR + ChatColor.GRAY 
+			commandSender.sendMessage(MsgPrefix.ERR + ChatColor.GRAY 
 					+ "Invalid player-name! correct usage: /tpa " + ChatColor.WHITE+ " PlayerName");
 			return false;
 		}
 		
 		// make sure the target player is online
 		if (player2 == null || !player2.isOnline()) {
-			commandSender.sendMessage(Msg.ERR 
+			commandSender.sendMessage(MsgPrefix.ERR 
 					+ "You cannot teleport to a player that is not online.");
 			return false;
 		}
@@ -58,13 +58,13 @@ public class TeleportAssistant implements CommandExecutor {
 			coolDowns.put(player.getName(), System.currentTimeMillis());
 		} else {
 			
-			System.out.println(Msg.DEBUG + "Direct Teleport cooldowns contains key");
+			System.out.println(MsgPrefix.DEBUG + "Direct Teleport cooldowns contains key");
 
 			long secondsLeft = getSecondsLeft(player);
 
 			if (secondsLeft > 0) {
 				commandSender.sendMessage(//color
-						Msg.ERR + "You cannot teleport right now. " + ChatColor.YELLOW + secondsLeft + ChatColor.GRAY + " seconds left");
+						MsgPrefix.ERR + "You cannot teleport right now. " + ChatColor.YELLOW + secondsLeft + ChatColor.GRAY + " seconds left");
 				return false;
 			}
 		 
@@ -77,7 +77,7 @@ public class TeleportAssistant implements CommandExecutor {
 						player2.getLocation().getX(), player2.getLocation().getY(), player2.getLocation().getZ()));
 		
 		
-		System.out.println(Msg.DEBUG + "arg was not invalid");
+		System.out.println(MsgPrefix.DEBUG + "arg was not invalid");
 		
 		return true;
 	}

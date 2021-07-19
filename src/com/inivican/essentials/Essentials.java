@@ -3,7 +3,8 @@ package com.inivican.essentials;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.LinkOption;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -11,7 +12,7 @@ import javax.annotation.Nullable;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.inivican.essentials.constants.Msg;
+import com.inivican.essentials.constants.MsgPrefix;
 import com.inivican.essentials.objects.PlayerHome;
 import com.inivican.essentials.util.TeleportAssistant;
 import com.inivican.essentials.util.commands.Home;
@@ -59,10 +60,10 @@ public class Essentials extends JavaPlugin {
 		ArrayList<String> paths = new ArrayList<String>();
 		
 		try {
-			Files.list(new File(System.getProperty("user.dir")).toPath()).forEach(path ->{
+			Files.list(new File(System.getProperty("user.dir")+"/playerHomes/").toPath()).forEach(path ->{
 				
 				if (path.toAbsolutePath().toString().endsWith(".ph")) {
-					System.out.println(Msg.LIST + path);
+					System.out.println(MsgPrefix.LIST + path);
 					paths.add(path.toAbsolutePath().toString());
 				}
 				
@@ -98,14 +99,14 @@ public class Essentials extends JavaPlugin {
 		
 		System.out.println("Serialization in process....");
 		
-		File file = new File("/playerHomes/");
-		
-		if (! Files.exists(file.toPath(), LinkOption.NOFOLLOW_LINKS)  ) {
-			boolean success = file.mkdir();
-			System.out.println("Created playerHomes directory as there was none. Status: " + success);
-		} else {
-			System.out.println("Directory could not be created.");
+		Path path = Paths.get("playerHomes");
+		if (!Files.exists(path)) {
+			boolean status = new File("playerHomes").mkdir();
+			System.out.println("`playerHomes` did not exist. Creating one for you." + status);
 		}
+		
+		
+		
 		
 		for(PlayerHome ph : playerHomes) {
 			PlayerHome.serialize(ph, PlayerHome.getAutoName(ph));

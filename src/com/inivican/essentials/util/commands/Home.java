@@ -3,6 +3,7 @@ package com.inivican.essentials.util.commands;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -11,10 +12,9 @@ import org.bukkit.entity.Player;
 
 import com.inivican.essentials.Essentials;
 import com.inivican.essentials.constants.Msg;
+import com.inivican.essentials.constants.MsgPrefix;
 import com.inivican.essentials.objects.PlayerHome;
 import com.inivican.essentials.util.Homes;
-
-import net.md_5.bungee.api.ChatColor;
 
 public class Home implements CommandExecutor {
 
@@ -46,7 +46,7 @@ public class Home implements CommandExecutor {
 
 				String worldName = player.getLocation().getWorld().getName();
 
-				System.out.println(Msg.DEBUG + "serializing home on [world:" + worldName + "]");
+				System.out.println(MsgPrefix.DEBUG + "serializing home on [world:" + worldName + "]");
 
 				// String homeName, int x, int y, int z, UUID playerUUID, String worldName
 				PlayerHome ph = new PlayerHome(args[1], player.getLocation().getBlockX(),
@@ -57,10 +57,29 @@ public class Home implements CommandExecutor {
 				PlayerHome.serialize(ph, PlayerHome.getAutoName(ph));
 				// TODO: ACCOUNT FOR NAME COLLISIONS?
 
-				commandSender.sendMessage(Msg.OK + "Home '" + args[1] + "' set.");
+				commandSender.sendMessage(MsgPrefix.OK + "Home '" + args[1] + "' set.");
 			}
 
 			break;
+		case "help":
+			commandSender.sendMessage(MsgPrefix.INFO + "      - List of commands -");
+			commandSender.sendMessage(ChatColor.BLUE + "/home help" + ChatColor.WHITE + " - shows this message");
+			commandSender.sendMessage(ChatColor.BLUE + "/home go "
+					+Msg.INLINE_VALUE_FIELD_ANGLE_START + "homeName"+Msg.INLINE_VALUE_FIELD_ANGLE_EXIT 
+					+ ChatColor.WHITE + " - takes you back to your home");
+			commandSender.sendMessage(ChatColor.WHITE + "you can also use " + ChatColor.BLUE + "tp" + ChatColor.WHITE + 
+					" or " + ChatColor.BLUE + "goto" + ChatColor.WHITE + " instead of using " +ChatColor.BLUE + "go");
+			
+			commandSender.sendMessage(ChatColor.BLUE + "/home del " 
+			+Msg.INLINE_VALUE_FIELD_ANGLE_START + "homeName"+Msg.INLINE_VALUE_FIELD_ANGLE_EXIT 
+			+ ChatColor.WHITE + " - allows you to delete your home");
+			
+			commandSender.sendMessage(ChatColor.BLUE + "/home set "
+			+ Msg.INLINE_VALUE_FIELD_ANGLE_START + "homeName"+Msg.INLINE_VALUE_FIELD_ANGLE_EXIT + ChatColor.WHITE + " - sets your home (you must specify a name!) to where you are standing");
+			commandSender.sendMessage(ChatColor.BLUE + "/home list" + ChatColor.WHITE + " - shows you a list of all your homes");
+			
+			return true;
+			
 		case "goto":
 		case "go":
 		case "tp":
@@ -91,14 +110,15 @@ public class Home implements CommandExecutor {
 				break;
 			}
 
-			commandSender.sendMessage(Msg.INFO + " *** Your Homes ***");
+			commandSender.sendMessage(MsgPrefix.INFO + " *** Your Homes ***");
 			for (int i = 0; i < homes.size(); i++) {
-				commandSender.sendMessage(i + ". " + homes.get(i).toString());
+				commandSender.sendMessage(i+1 + ". " + homes.get(i).toString());
 			}
 
-			break;
+			return true;
+			
 		default:
-			commandSender.sendMessage(Msg.ERR + "Insufficient correct arguments given.");
+			commandSender.sendMessage(MsgPrefix.ERR + "Insufficient correct arguments given. Try /home help");
 		}
 
 		return true;
@@ -106,31 +126,31 @@ public class Home implements CommandExecutor {
 	}
 
 	private void homeTeleporation(final CommandSender commandSender, final String[] args, Player player) {
-		System.out.println(Msg.DEBUG + "entered goto/go/tp");
+		//System.out.println(MsgPrefix.DEBUG + "entered goto/go/tp");
 
 		if (args[1] == null || args[1].equalsIgnoreCase("") ) {
-			commandSender.sendMessage(Msg.ERR + "Invalid home name! correct usage: /home tp NameOfYourHome");
+			commandSender.sendMessage(MsgPrefix.ERR + "Invalid home name! correct usage: /home tp NameOfYourHome");
 			return;
 		}
 
-		System.out.println(Msg.DEBUG + "arg was not invalid");
+		//System.out.println(MsgPrefix.DEBUG + "arg was not invalid");
 
 		if (!Essentials.doesPlayerHomeExist(player.getUniqueId(), args[1])) {
-			commandSender.sendMessage(Msg.ERR + "You don't have a home by that name");
+			commandSender.sendMessage(MsgPrefix.ERR + "You don't have a home by that name");
 			return;
 		}
 
-		System.out.println(Msg.DEBUG + "player home DOES exist");
+		//System.out.println(MsgPrefix.DEBUG + "player home DOES exist");
 
 		if (coolDowns.containsKey(player.getName())) {
 
-			System.out.println(Msg.DEBUG + "Home cooldowns contains key");
+			//System.out.println(MsgPrefix.DEBUG + "Home cooldowns contains key");
 
 			long secondsLeft = getSecondsLeft(player);
 
 			if (secondsLeft > 0) {
 				commandSender.sendMessage(
-						Msg.ERR + "You cannot teleport right now. " + ChatColor.RED + secondsLeft + ChatColor.GRAY + " seconds left");
+						MsgPrefix.ERR + "You cannot teleport right now. " + ChatColor.RED + secondsLeft + ChatColor.GRAY + " seconds left");
 				return;
 			}
 

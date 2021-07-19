@@ -4,7 +4,7 @@ import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import com.inivican.essentials.constants.Msg;
+import com.inivican.essentials.constants.MsgPrefix;
 
 public class Validation {
 
@@ -27,12 +27,12 @@ public class Validation {
 		}
 
 		if (!(commandSender instanceof Player)) {
-			System.out.println(Msg.DEBUG + "Console cannot issue /home* commands." + commandSender.getName());
+			System.out.println(MsgPrefix.DEBUG + "Console cannot issue /home* commands." + commandSender.getName());
 			return false;
 		}
 
 		if (args.length < 1) {
-			commandSender.sendMessage(Msg.ERR + "Insufficient arguments for command.");
+			commandSender.sendMessage(MsgPrefix.ERR + "Insufficient arguments for command.");
 			return false;
 		}
 		
